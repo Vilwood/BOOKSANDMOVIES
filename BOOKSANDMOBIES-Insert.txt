@@ -1,0 +1,120 @@
+--Création des différentes célébrités dans la table CELEBRITE 
+INSERT INTO CELEBRITE (NOM, PRENOM, DATENAISSANCE) VALUES
+('Carpenter','John','16-01-1948'),
+('McTiernan','John','08-01-1951'),
+('Russel','Kurt','17-03-1951'),
+('Willis','Bruce','18-03-1955'),
+('Cameron','James','16/08/1954'),
+('Worthington', 'Sam', '02/08/1976'),
+('Wright', 'Edgar', '16/04/1974'),
+('Pegg', 'Simon', '14/02/1970'),
+('Qwak', 'Arthur', '25/12/1961'),
+('Timsit', 'Patrick', '15/07/1959'),
+('Fritz', 'Lang', '05/12/1890'),
+('Klein-Rogge', 'Rudolf', '24/11/1885'),
+('Chazelle', 'Damien', '19/01/1985'),
+('Stone', 'Emma', '06/11/1988'),
+('Hitchcock', 'Alfred', '29/04/1899'),
+('Leigh', 'Janet', '06/07/1927'),
+('Tarantino', 'Quentin', '27/03/1963'),
+('Roth', 'Tim', '14/05/1961'),
+('Fincher', 'David', '28/08/1962'),
+('Gyllenhaal', 'Jake', '19/12/1980'),
+('Camus','Albert','07-11-1913'),
+('Dumas','Alexandre','24-07-1802'),
+('Beyle','Marie-Henri','23-01-1783'),
+('Prévert','Jacques','04-02-1900'),
+('De Saint-Exupéry','Antoine','29-06-1900'),
+('Frank','Anne','12-06-1929'),
+('Zola','Émile','02-04-1840');
+
+--Création des différents utilisateurs dans la table UTILISATEUR
+INSERT INTO UTILISATEUR (NOM, PRENOM, ADRESSEMAIL, MOTDEPASSE,DATENAISSANCE,LASTCONNEXION)
+VALUES
+('PICHARD', 'Michel', 'michel.pich34@laposte.net', 'Mich65','24/01/1965','02/06/2020'),
+('POITOU', 'Stéphane', 'Steph.pouitou@yahoo.fr', 'keval0611','08/10/1976','20/06/2019'),
+('MATEI', 'Apolline', 'apolline.mat@gmail.com', 'H3!1o','08/09/2000','04/06/2020'),
+('PIZZETA', 'Arnaud', 'arnaud.pizzeta@gmail.fr', 'Pizz3tt4RNAUD','14/06/1999','31/05/2020'),
+('GUILLOT','Magalie','Mag81.guillot@free.fr','magalie','19/02/1967','08/09/2019'),
+('ZIMMERMANN','Gregory','gre7.zimm@gmail.com','Z1mm3rm4Nn','26/05/1994','02/06/2020'),
+('SOULEIHMAN','Yannis','yan.soul86@gmail.com','86Qlf75','23/04/1986','25/04/2020'),
+('RICCI-CLAUDE','Jeanne','ricceanne@laposte.fr','Icc1r','27/08/1981','07/02/2020'),
+('WIDDEN','Loukas','louk.widd@gmail.fr','37iORo6E','11/01/2001','03/06/2020'),
+('HONRICH','Jade','jonrich@yahoo.fr','o9TR4lleh','28/12/81','07/11/2019');
+
+--Création des différentes catégories de film dans la table CATEGORIEFILM
+INSERT INTO CATEGORIEFILM (LIBELLE) VALUES
+('Fiction'),
+('Drame'),
+('Action');
+
+--Création des différentes catégories de livre dans la table CATEGORIELIVRE
+INSERT INTO CATEGORIELIVRE (LIBELLE) VALUES
+('Historique'),
+('Policier'),
+('Autobiographie');
+
+--Insert d'un jeu de données dans la table FILM 
+INSERT INTO  FILM (ID_CATEGORIEFILM, ID_REALISATEUR, TITRE, DATESORTIE, DUREE) VALUES
+(1, 1, 'The Thing', '25/06/1982', '01:49'),
+(3, 2, 'Die Hard', '15/07/1988', '02:12'),
+(1, 5, 'Avatar','16/12/2009', '02:42'),
+(3, 7, 'Hot Fuzz', '18/07/2007', '02:01'),
+(1, 9, 'Chasseurs de Dragons', '26/03/2008', '01:22'),
+(2, 11, 'Docteur Mabuse le joueur', '05/04/1922', '04:57'),
+(2, 13, 'La la land', '09/12/2016', '02:08'),
+(2, 15, 'Psychose', '08/09/1960', '01:49'),
+(3, 17, 'Reservoir Dogs', '09/10/1992', '01:40'),
+(2, 19, 'Zodiac', '28/02/2007', '02:42');
+
+--Insert d'un jeu de données dans la table LIVRE avec jointures
+INSERT INTO LIVRE (ID_CATEGORIELIVRE, ID_AUTEUR, TITRE, EDITEUR, DATEPARUTION) VALUES
+(3, 21, 'L''Étranger', 'Gallimard', '19-05-1942'),
+(2, 21, 'La Peste', 'Gallimard', '09-06-1947'),
+(2, 22, 'Les Trois Mousquetaires ', 'Le Livre de Poche', '01-06-1844'),
+(1, 23, 'Le Rouge et le Noir ', 'Le Livre de Poche', '01-01-1830'),
+(1, 24, 'Paroles', 'Gallimard', '02-09-1946'),
+(1, 25, 'Le Petit Prince', 'Gallimard', '05-11-1943'),
+(3, 26, 'Journal d''Anne Frank', 'Le Livre de Poche', '01-05-1950'),
+(1, 27, 'Pour Manet', 'Complexe', '01-05-1890'),
+(2, 27, 'J''Accuse...!', 'Complexe', '13-01-1898'),
+(3, 27, 'Nouvelles roses', 'Le Livre de Poche', '19-07-1885');
+
+--Insert d'un jeu de donnée dans la table ACTEUR avec jointures
+INSERT INTO ACTEUR (ID_FILM, ID_CELEBRITE, PERSONNAGE) VALUES
+(1, 3, 'MacReady'),
+(2, 4, 'John McClane'),
+(3, 6, 'Jack Sully'),
+(4, 8, 'Nicholas Angel'),
+(5, 10, 'Gwizdo'),
+(6, 12, 'Dr Mabuse'),
+(7, 14, 'Mia Dolan'),
+(8, 16, 'Marion Crane'),
+(9, 18, 'Mr Orange'),
+(10, 20, 'Rober Graysmith');
+
+--Insert d'un jeu de données dans la table NOTELIVRE avec jointures
+INSERT INTO NOTELIVRE (ID_LIVRE, ID_UTILISATEUR, NOTE_SCENARIO, NOTE_PERSONNAGE, NOTE_QUALITEEC, COMMENTAIRE) VALUES
+(4, 5, 8, 7, 9, 'Bien mais un peu court'),
+(7, 1, 3, 5, 6, 'la fin était courue d''avance, décevant'),
+(9, 3, 4, 8.5, 9, 'La prison sait pa ouf'),
+(6, 10, 10, 2.5, 7, 'Je dessine maintenant des moutons tous les jours.'),
+(1, 3, 9.5, 8, 8, 'Je l''est eu au bac de franssais s''été coule'),
+(3, 6, 3, 6, 2.5, 'J''ai compté et en fait ils sont quatre'),
+(2, 1, 8, 5, 6, 'Bien.'),
+(8, 1, 7, 5 , 8, 'J''ai pas compris, Manet c''est un écrivain ou un peintre?'),
+(4, 2, 5, 8, 6, 'Je connaissais la chanson de Nougaro mais pas le livre, c''était moins bien.'),
+(7, 4, 7.5, 5, 9, 'C''est un hebdomadaire ou un mensuel ?');
+
+-- Insert d'un jeu de données dans la table NOTEFILM avec jointures
+INSERT INTO NOTEFILM(ID_FILM, ID_UTILISATEUR, NOTE_SCENARIO, NOTE_JEUACTEUR, NOTE_QUALITEAV, COMMENTAIRE) VALUES
+(9,1,2,1,4,'Un film très rarement appréciable, des acteurs nanardesques et un réalisateur oubliable'),
+(10,3,7,6,8,'Tré bon trilheure'),
+(7,3,8,10,9.5,'Toux sainpleumant manniffick'),
+(7,2,10,9.5,9,'Quel homme Ryan Gosling!'),
+(5,2,7,7,10,'Un très beau film visuellement ce qui compense une certaine légerté quant au scénario'),
+(1,2,8.5,7,8,'Un classique comme on en fait plus'),
+(3,7,7.5,7.5,9.5,'Un film magnifique et enchanteur'),
+(3,4,10,10,10,'IN-CRÉ-DI-BEU-BEULE'),
+(2,5,7,8,5,'Je préférais ce moment quand il avait encore des cheveux'),
+(5,1,5,4,3,'Un film relativement prévisible, des décors passables et une morale écolo insuportable, à éviter');

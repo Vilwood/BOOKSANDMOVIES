@@ -1,0 +1,89 @@
+-- Requête de selection du nombre d'utilisateur :
+-- On selectionne le nombre d'utilisateur grâce à un count sur la table UTILISATEUR
+SELECT COUNT(*) AS 'NOMBRE D''UTILISATEURS TOTAL'
+FROM dbo.UTILISATEUR;
+
+-- Requête de selection du nombre d'utilisateur actif :
+-- On selectionne le nombre d'utilisateur actif grâce à un count sur la table UTILISATEUR en vérifiant que la différence en mois entre la date actuelle et la date de dernière connexion est inférieure à 3.
+SELECT COUNT(*) AS 'NOMBRE D''UTILISATEURS ACTIFS'
+FROM dbo.UTILISATEUR 
+WHERE DATEDIFF(MONTH, LASTCONNEXION, GETDATE()) < 3;
+
+-- Requête âge des personnes en fonction des catégories de film
+-- On selectionne la moyenne de la différence d'âge en année entre la date actuelle et la date de naissance de chaque utilisateur pour chaque catégorie de film en passant par toutes les tables intermédiaires en utilisant des inner join
+SELECT CF.ID_CATEGORIEFILM, CF.LIBELLE, AVG(DATEDIFF(YEAR, DATENAISSANCE, GETDATE())) AS 'ÂGE MOYEN'
+FROM dbo.UTILISATEUR U 
+	INNER JOIN dbo.NOTEFILM NF ON U.ID_UTILISATEUR = NF.ID_UTILISATEUR 
+	INNER JOIN dbo.FILM F ON NF.ID_FILM = F.ID_FILM 
+	INNER JOIN dbo.CATEGORIEFILM CF ON F.ID_CATEGORIEFILM = CF.ID_CATEGORIEFILM
+GROUP BY CF.ID_CATEGORIEFILM, CF.LIBELLE;
+
+-- Requête âge des personnes en fonction des catégories de livre
+-- IDEM pour les catégories de livre
+SELECT CL.ID_CATEGORIELIVRE, CL.LIBELLE, AVG(DATEDIFF(YEAR, DATENAISSANCE, GETDATE())) AS 'ÂGE MOYEN'
+FROM dbo.UTILISATEUR U 
+	INNER JOIN dbo.NOTELIVRE NL ON U.ID_UTILISATEUR = NL.ID_UTILISATEUR 
+	INNER JOIN dbo.LIVRE L ON NL.ID_LIVRE = L.ID_LIVRE 
+	INNER JOIN dbo.CATEGORIELIVRE CL ON L.ID_CATEGORIELIVRE = CL.ID_CATEGORIELIVRE
+GROUP BY CL.ID_CATEGORIELIVRE, CL.LIBELLE;
+
+-- Requête pourcentage de personne notant les livres
+-- On effectue un produit en croix entre le nombre total d'utilisateur et le nombre d'utilisateur distinct ayant voté au moins un fois un livre.
+SELECT 
+    (SELECT COUNT(DISTINCT NL.ID_UTILISATEUR)
+    FROM dbo.NOTELIVRE NL) 
+* 100 / 
+    (SELECT COUNT(*) 
+    FROM dbo.UTILISATEUR) 
+AS '% DE PERSONNES NOTANT DES LIVRES'
+
+-- Requête pourcentage de personne notant les films
+-- IDEM pour les note de films
+SELECT 
+    (SELECT COUNT(DISTINCT NF.ID_UTILISATEUR)
+    FROM dbo.NOTEFILM NF) 
+* 100 / 
+    (SELECT COUNT(*) 
+    FROM dbo.UTILISATEUR) 
+AS '% DE PERSONNES NOTANT DES FILMS' 
+
+-- Requête personne notant le plus de films
+-- On selectionne les informations de l'utilisateur ayant le plus grand nombre de film noté retourné par une sous-requête donnant le nombre de films notés par chaque utilisateur.
+SELECT TNBVOTESMAX.ID_UTILISATEUR, U.NOM, U.PRENOM, Nbnotes AS 'NOMBRE DE FILMS NOTÉS'
+FROM (
+	SELECT TOP 1 ID_UTILISATEUR, SUM(n) as Nbnotes 
+	FROM (
+		SELECT ID_UTILISATEUR, COUNT(*) as n FROM NOTEFILM GROUP BY ID_UTILISATEUR
+	) TNBVOTES
+	GROUP BY ID_UTILISATEUR 
+	ORDER BY Nbnotes DESC
+) TNBVOTESMAX, dbo.UTILISATEUR U 
+WHERE U.ID_UTILISATEUR = TNBVOTESMAX.ID_UTILISATEUR;
+
+-- Requête personne notant le plus de livres
+-- IDEM pou les notes de livres
+SELECT TNBVOTESMAX.ID_UTILISATEUR, U.NOM, U.PRENOM, Nbnotes AS 'NOMBRE DE LIVRES NOTÉS'
+FROM (
+	SELECT TOP 1 ID_UTILISATEUR, SUM(n) as Nbnotes 
+	FROM (
+		SELECT ID_UTILISATEUR, COUNT(*) as n FROM NOTELIVRE GROUP BY ID_UTILISATEUR
+	) TNBVOTES
+	GROUP BY ID_UTILISATEUR 
+	ORDER BY Nbnotes DESC
+) TNBVOTESMAX, dbo.UTILISATEUR U 
+WHERE U.ID_UTILISATEUR = TNBVOTESMAX.ID_UTILISATEUR;
+
+-- Requête personne notant le plus de films et de livres
+-- On selectionne les informations de l'utilisateur ayant le plus grand nombre de film noté retourné par une sous-requête donnant le nombre de films et livres notés par chaque utilisateur.
+SELECT TNBVOTESMAX.ID_UTILISATEUR, U.NOM, U.PRENOM, Nbnotes AS 'NOMBRE DE LIVRES ET FILMS NOTÉS'
+FROM (
+	SELECT TOP 1 ID_UTILISATEUR, SUM(n) as Nbnotes 
+	FROM (
+	SELECT ID_UTILISATEUR, COUNT(*) as n FROM NOTEFILM GROUP BY ID_UTILISATEUR
+		UNION ALL
+		SELECT ID_UTILISATEUR, COUNT(*) FROM NOTELIVRE GROUP BY ID_UTILISATEUR
+	) TNBVOTES
+	GROUP BY ID_UTILISATEUR 
+	ORDER BY Nbnotes DESC
+) TNBVOTESMAX, dbo.UTILISATEUR U 
+WHERE U.ID_UTILISATEUR = TNBVOTESMAX.ID_UTILISATEUR;
