@@ -1,2 +1,3 @@
 # BOOKSANDMOVIES
 Rendu projet BOOKSANDMOVIES
+Groupe CHATELARD Antoine, BOUHARATI Massi, PLAT Mathieu, RICHERT Victor
